@@ -1,25 +1,31 @@
-import { FaCodepen, FaStore, FaUserFriends, FaUsers } from "react-icons/fa";
-import { useEffect, useContext } from "react";
-import { useParams, Link } from "react-router-dom";
-import Spinner from "../components/layout/Spinner";
-import RepoList from "../components/repos/RepoList";
-import GithubContext from "../context/github/GithubContext";
-import { getUserAndRepos } from "../context/github/GithubActions";
+import {
+  FaCodepen,
+  FaStore,
+  FaUserFriends,
+  FaUsers,
+  FaChevronLeft,
+} from 'react-icons/fa'
+import { useEffect, useContext } from 'react'
+import { useParams, Link } from 'react-router-dom'
+import Spinner from '../components/layout/Spinner'
+import RepoList from '../components/repos/RepoList'
+import GithubContext from '../context/github/GithubContext'
+import { getUserAndRepos } from '../context/github/GithubActions'
 
 function User() {
-  const { user, loading, repos, dispatch } = useContext(GithubContext);
+  const { user, loading, repos, dispatch } = useContext(GithubContext)
 
-  const params = useParams();
+  const params = useParams()
 
   useEffect(() => {
-    dispatch({ type: "SET_LOADING" });
+    dispatch({ type: 'SET_LOADING' })
     const getUserData = async () => {
-      const userData = await getUserAndRepos(params.login);
-      dispatch({ type: "GET_USER_AND_REPOS", payload: userData });
-    };
+      const userData = await getUserAndRepos(params.login)
+      dispatch({ type: 'GET_USER_AND_REPOS', payload: userData })
+    }
 
-    getUserData();
-  }, [dispatch, params.login]);
+    getUserData()
+  }, [dispatch, params.login])
 
   const {
     name,
@@ -36,30 +42,20 @@ function User() {
     public_repos,
     public_gists,
     hireable,
-  } = user;
+  } = user
 
   if (loading) {
-    return <Spinner />;
+    return <Spinner />
   }
 
-  // NOTE: check for valid url to users website
-
-  const websiteUrl = blog?.startsWith("http") ? blog : "https://" + blog;
-
-  // NOTE: code here has been fixed so that stats no longer show scroll bar on
-  // mobile / small devices
-  // https://www.udemy.com/course/react-front-to-back-2022/learn/lecture/29768968#questions/16902278
-
-  // NOTE: if you are having problems with the name and login showing at the top
-  // of the image then you need the className='flex-grow-0' on the <p> tag
-  // default styling on <p> in daisyUI now has flex-grow-1
+  const websiteUrl = blog?.startsWith('http') ? blog : 'https://' + blog
 
   return (
     <>
       <div className='w-full mx-auto lg:w-10/12'>
         <div className='mb-4'>
           <Link to='/' className='btn btn-ghost'>
-            Back To Search
+            <FaChevronLeft /> Back To Search
           </Link>
         </div>
 
@@ -180,7 +176,7 @@ function User() {
         <RepoList repos={repos} />
       </div>
     </>
-  );
+  )
 }
 
-export default User;
+export default User
